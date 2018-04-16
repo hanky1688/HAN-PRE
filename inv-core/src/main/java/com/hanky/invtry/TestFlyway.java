@@ -1,5 +1,6 @@
 package com.hanky.invtry;
 
+import com.hanky.invtry.utils.FileUtils;
 import org.flywaydb.core.api.FlywayException;
 import org.flywaydb.core.internal.util.FileCopyUtils;
 
@@ -9,26 +10,20 @@ import java.util.zip.CRC32;
 
 public class TestFlyway {
 
-    public static byte[] loadAsBytes(String filePath) {
+    private static byte[] loadAsBytes(String filePath) {
         try {
-            InputStream inputStream = new FileInputStream(new File(filePath));
-            if (inputStream == null) {
-                throw new FlywayException("Unable to obtain inputstream for resource: " + filePath);
-            }
+            InputStream inputStream = new FileInputStream(filePath);
             return FileCopyUtils.copyToByteArray(inputStream);
         } catch (IOException e) {
             throw new FlywayException("Unable to load resource: " + filePath, e);
         }
     }
 
-    public static String loadAsString(String encoding, String filePath) {
+    private static String loadAsString(String encoding, String filePath) {
         try {
-            InputStream inputStream = new FileInputStream(new File(filePath));
-            if (inputStream == null) {
-                throw new FlywayException("Unable to obtain inputstream for resource: " + filePath);
-            }
-            Reader reader = new InputStreamReader(inputStream, Charset.forName(encoding));
+            InputStream inputStream = new FileInputStream(filePath);
 
+            Reader reader = new InputStreamReader(inputStream, Charset.forName(encoding));
             return FileCopyUtils.copyToString(reader);
         } catch (IOException e) {
             throw new FlywayException("Unable to load resource: " + filePath + " (encoding: " + encoding + ")", e);
@@ -36,7 +31,7 @@ public class TestFlyway {
     }
 
     public static void main(String[] args) throws IOException {
-        String filePath = "D:\\ideaspace\\HAN-PRE\\inv-core\\src\\main\\resources\\flyway\\version\\V1.0.0__ddl_create_purchase.sql";
+        String filePath = "D:\\githome\\HAN-PRE\\inv-core\\src\\main\\resources\\flyway\\version\\V1.0.0__ddl_create_purchase.sql";
         String encoding = "UTF-8";
 
         //String mode
@@ -48,9 +43,15 @@ public class TestFlyway {
         final int checksum1 = calculateChecksum(bytes);
         System.out.println("byte mode : " + checksum1);
 
+
+        final byte[] bytes1 = FileUtils.toByteArray(filePath);
+        final byte[] bytes2 = FileUtils.toByteArray2(filePath);
+        final byte[] bytes3 = FileUtils.toByteArray3(filePath);
+        System.out.println("0:" + bytes.length + ",1:" + bytes1.length + ",2:" + bytes2.length + ",3:" + bytes3.length);
+
     }
 
-    static int calculateChecksum(String str) {
+    private static int calculateChecksum(String str) {
         final CRC32 crc32 = new CRC32();
         BufferedReader bufferedReader = new BufferedReader(new StringReader(str));
         try {
