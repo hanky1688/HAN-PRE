@@ -1,0 +1,7 @@
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compileOnly('org.projectlombok:lombok')
+	compile 'org.apache.commons:commons-lang3:3.5'
+	compile project (':base')
+}
