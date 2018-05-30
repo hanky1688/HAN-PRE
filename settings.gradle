@@ -1,5 +1,5 @@
 rootProject.name = 'HAN-PRE'
-include 'base'
-include 'corejava'
+include 'han-base'
+include 'javase'
 include 'inv-core'
 include 'sb-feature-practice'
